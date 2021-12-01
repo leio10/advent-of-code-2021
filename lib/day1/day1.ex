@@ -5,6 +5,7 @@ defmodule V2021.Day1 do
   def solution_part1() do
     @input_file_part1
     |> parse_input()
+    |> count_larger_measurements(Infinity)
     |> IO.puts()
   end
 
@@ -19,5 +20,13 @@ defmodule V2021.Day1 do
     |> File.read!()
     |> String.split("\n")
     |> Enum.map(&String.to_integer(&1))
+  end
+
+  defp count_larger_measurements([], _) do 0 end
+  defp count_larger_measurements([current | rest], prev) when current > prev do
+    count_larger_measurements(rest, current) + 1
+  end
+  defp count_larger_measurements([current | rest], _) do
+    count_larger_measurements(rest, current)
   end
 end
