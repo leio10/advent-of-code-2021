@@ -12,6 +12,8 @@ defmodule V2021.Day1 do
   def solution_part2() do
     @input_file_part2
     |> parse_input()
+    |> build_groups()
+    |> count_larger_measurements(Infinity)
     |> IO.puts()
   end
 
@@ -28,5 +30,10 @@ defmodule V2021.Day1 do
   end
   defp count_larger_measurements([current | rest], _) do
     count_larger_measurements(rest, current)
+  end
+
+  defp build_groups([_ | [_ | []]]) do [] end
+  defp build_groups([current | [next | [last | rest]]]) do
+    [current + next + last | build_groups([next | [last | rest]])]
   end
 end
