@@ -12,6 +12,7 @@ defmodule V2021.Day2 do
   def solution_part2() do
     @input_file_part2
     |> parse_input()
+    |> move_with_aim([0, 0, 0])
     |> IO.puts()
   end
 
@@ -29,4 +30,13 @@ defmodule V2021.Day2 do
   defp apply_step(["down" | [x]], [h | [d]]) do [h, d+String.to_integer(x)] end
   defp apply_step(["up" | [x]], [h | [d]]) do [h, d-String.to_integer(x)] end
   defp apply_step(["forward" | [x]], [h | [d]]) do [h + String.to_integer(x), d] end
+
+  defp move_with_aim([], [h | [d | _]]) do h*d end
+  defp move_with_aim([step | rest], position) do
+    move_with_aim(rest, apply_step_with_aim(String.split(step, " "), position))
+  end
+
+  defp apply_step_with_aim(["down" | [x]], [h | [d | [aim]]]) do [h, d, aim+String.to_integer(x)] end
+  defp apply_step_with_aim(["up" | [x]], [h | [d | [aim]]]) do [h, d, aim-String.to_integer(x)] end
+  defp apply_step_with_aim(["forward" | [x]], [h | [d | [aim]]]) do [h + String.to_integer(x), d+aim*String.to_integer(x), aim] end
 end
