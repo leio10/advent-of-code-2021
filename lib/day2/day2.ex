@@ -5,6 +5,7 @@ defmodule V2021.Day2 do
   def solution_part1() do
     @input_file_part1
     |> parse_input()
+    |> move([0, 0])
     |> IO.puts()
   end
 
@@ -18,6 +19,14 @@ defmodule V2021.Day2 do
     input
     |> File.read!()
     |> String.split("\n")
-    |> Enum.map(&String.to_integer(&1))
   end
+
+  defp move([], [h | [d]]) do h*d end
+  defp move([step | rest], position) do
+    move(rest, apply_step(String.split(step, " "), position))
+  end
+
+  defp apply_step(["down" | [x]], [h | [d]]) do [h, d+String.to_integer(x)] end
+  defp apply_step(["up" | [x]], [h | [d]]) do [h, d-String.to_integer(x)] end
+  defp apply_step(["forward" | [x]], [h | [d]]) do [h + String.to_integer(x), d] end
 end
